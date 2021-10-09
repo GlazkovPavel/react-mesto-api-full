@@ -1,0 +1,12 @@
+.popup__preview-img{
+ display: block;
+ max-width: 75vw;
+ max-height: 75vh;
+ object-fit: cover;
+}
+@media(max-width: 420px){
+  .popup__preview-img{
+    width: 240px;
+    height: 299px;
+  }
+}

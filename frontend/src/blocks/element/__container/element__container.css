@@ -1,0 +1,14 @@
+.element__container{
+  background-color: white;
+  max-width: 282px;
+  border-radius: 10px;
+  list-style: none;
+
+}
+@media (max-width: 879px){
+  .element__container {
+    max-width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+}

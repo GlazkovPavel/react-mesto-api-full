@@ -1,0 +1,12 @@
+.element__foto{
+  width: 100%;
+  margin: 0;
+  object-fit: cover;
+  height: 100%;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  cursor: pointer;
+  position: absolute;
+  left: 0;
+  top: 0;
+}

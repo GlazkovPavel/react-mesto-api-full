@@ -1,0 +1,18 @@
+.element__description-like{
+  width: 22px;
+  height: 19px;
+  align-self: center;
+  cursor: pointer;
+  background: url(../../../images/vector1.svg);
+  border: none;
+  background-repeat: no-repeat;
+  outline: none;
+  justify-self:self-end;
+  margin-right: 20px;
+  padding-right: 14px;
+  margin-top: 24px;
+
+}
+.element__description-like:hover{
+  opacity: 0.5;
+}

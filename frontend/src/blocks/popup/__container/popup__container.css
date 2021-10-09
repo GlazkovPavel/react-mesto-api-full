@@ -1,0 +1,30 @@
+
+.popup__container{
+  display: block;
+  align-items: center;
+  max-width: 430px;
+  width: 100%;
+  background-color: white;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  margin: auto;
+  color: black;
+  position: relative;
+  box-sizing: border-box;
+
+}
+@media (max-width: 520px){
+  .popup__container{
+    max-width: 380px;
+  }
+}
+@media (max-width: 460px){
+  .popup__container{
+    max-width: 310px;
+  }
+}
+@media (max-width: 320px){
+  .popup__container{
+    max-width: 282px;
+  }
+}
