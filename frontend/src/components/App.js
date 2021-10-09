@@ -37,8 +37,8 @@ function App() {
         apiAuth.getContent(jwt)
             .then((res) => {
               setIsLoggedIn(true);
-              setEmail(res.data.email);
               history.push('/users/me')
+
             })
             .catch(err => console.error(err))
       }
@@ -46,7 +46,9 @@ function App() {
 
   React.useEffect(() => {
     api.getUserInfo()
-        .then(res => {setCurrentUser(res)})
+        .then(res => {
+          setEmail(res.email);
+          setCurrentUser(res)})
         .catch(err => {console.error(err)})
   }, [])
 
@@ -59,7 +61,7 @@ function App() {
   function register(email, password) {
     apiAuth.register(email, password)
         .then((res) => {
-          if (res.data._id) {
+          if (res) {
             setToolTipStatus(false)
             setInfoTooltipOpen(true)
             history.push('/signin');
