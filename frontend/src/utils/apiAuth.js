@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://api.mesto.glazkovpavel.nomoredomains.club';
+export const BASE_URL = 'http://localhost:3001';
 
 const checkResponse = (res) => {
   if (res.ok) {

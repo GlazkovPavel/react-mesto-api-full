@@ -38,11 +38,11 @@ function App() {
             .then((res) => {
               setIsLoggedIn(true);
               setEmail(res.data.email);
-              history.push('/')
+              history.push('/users/me')
             })
             .catch(err => console.error(err))
       }
-    }, [history])
+    }, [history, ''])
 
   React.useEffect(() => {
     api.getUserInfo()
@@ -52,7 +52,7 @@ function App() {
 
   React.useEffect(() => {
     api.getInitialCards()
-        .then(res => {setCards(res)})
+        .then(res => {setCards(res.data)})
         .catch(err => {console.error(err)})
   }, [])
 
@@ -80,7 +80,7 @@ function App() {
             setInfoTooltipOpen(false)
             localStorage.setItem('jwt', data.token)
             setIsLoggedIn(true)
-            history.push('/')
+            history.push('/users/me')
             setEmail(email)
 
           } else {
@@ -132,7 +132,7 @@ function App() {
     const handleUpdateUser = (data) => {
       api.setUserInfo(data)
           .then((res) => {
-            setCurrentUser(res)
+            setCurrentUser(res.data)
             closeAllPopups()
           })
           .catch(err => {console.error(err)})
@@ -144,7 +144,7 @@ function App() {
     const handleUpdateAvatar = (data) => {
       api.changeAvatar(data)
           .then((res) => {
-            setCurrentUser(res)
+            setCurrentUser(res.data)
             closeAllPopups()
           })
           .catch(err => {console.error(err)})
@@ -156,7 +156,7 @@ function App() {
     const handleAddPlaceSubmit = (newCard) => {
       api.setCardServer(newCard)
           .then((res) => {
-            setCards([res, ...cards]);
+            setCards([res.data, ...cards]);
             closeAllPopups()
           })
           .catch(err => {console.error(err)})
@@ -166,13 +166,18 @@ function App() {
     }
   function handleCardLike(card) {
     // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api.changeLikeCardStatus(card._id, !isLiked)
         .then((newCard) => {
-          setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+          const newCards = cards.map((c) => c._id === card._id ? newCard.data : c);// Формируем новый массив на основе имеющегося, подставляя в него новую карточку
+          //проверяет если id предыдущей карточки равен id полученной при PUT-запросе, то создавай новую карточку из запроса иначе оставляй старую
+          setCards(newCards)
         })
+        // .then((newCard) => {
+        //   setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+        // })
         .catch(err => {console.error(err)})
   }
 
@@ -204,7 +209,7 @@ function App() {
             <Header signOut={signOut} email={email} />
             <Switch>
               <ProtectedRoute
-                  exact path="/"
+                  exact path="/users/me"
                   component={Main}
                   onEditAvatar={handleEditAvatarClick}
                   onEditProfile={handleEditProfileClick}

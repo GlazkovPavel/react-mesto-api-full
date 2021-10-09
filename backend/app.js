@@ -15,7 +15,7 @@ const { methodValidator } = require('./middlewares/methodValidator');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('cors')
 
-const { PORT = 3000, BASE_PATH } = process.env;
+const { PORT = 3001, BASE_PATH } = process.env;
 const app = express();
 
 app.use(cors());
