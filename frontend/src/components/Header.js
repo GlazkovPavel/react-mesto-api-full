@@ -15,7 +15,7 @@ function Header(props) {
           <Route path="/signin">
             <Link to="/signup" className="header__button">Регистрация</Link>
           </Route>
-          <Route exact path="/users/me">
+          <Route exact path="/">
             <div className="header__container">
               <p className="header__email">{props.email}</p>
               <button className="header__button" onClick={props.signOut}>Выйти</button>

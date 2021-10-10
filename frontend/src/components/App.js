@@ -35,9 +35,9 @@ function App() {
       const jwt = localStorage.getItem('jwt');
       if(jwt){
         apiAuth.getContent(jwt)
-            .then((res) => {
+            .then(() => {
               setIsLoggedIn(true);
-              history.push('/users/me')
+              history.push('/')
 
             })
             .catch(err => console.error(err))
@@ -82,7 +82,7 @@ function App() {
             setInfoTooltipOpen(false)
             localStorage.setItem('jwt', data.token)
             setIsLoggedIn(true)
-            history.push('/users/me')
+            history.push('/')
             setEmail(email)
 
           } else {
@@ -211,7 +211,7 @@ function App() {
             <Header signOut={signOut} email={email} />
             <Switch>
               <ProtectedRoute
-                  exact path="/users/me"
+                  exact path="/"
                   component={Main}
                   onEditAvatar={handleEditAvatarClick}
                   onEditProfile={handleEditProfileClick}
