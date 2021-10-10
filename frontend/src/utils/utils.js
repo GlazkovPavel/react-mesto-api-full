@@ -1,7 +1,7 @@
 
 const  jwt = localStorage.getItem('jwt')
 export const config = {
-    url: 'http://localhost:3001',
+    url: 'https://api.mesto.glazkovpavel.nomoredomains.club',
     headers: {
         authorization: `Bearer ${jwt}`,
         'Content-Type': 'application/json'
