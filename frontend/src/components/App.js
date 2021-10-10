@@ -35,28 +35,33 @@ function App() {
       const jwt = localStorage.getItem('jwt');
       if(jwt){
         apiAuth.getContent(jwt)
-            .then(() => {
+            .then((res) => {
+              setEmail(res.email)
               setIsLoggedIn(true);
               history.push('/')
+              setCurrentUser(res)
 
             })
             .catch(err => console.error(err))
       }
-    }, [history, ''])
+    }, [history, isLoggedIn])
 
   React.useEffect(() => {
     api.getUserInfo()
-        .then(res => {
-          setEmail(res.email);
-          setCurrentUser(res)})
-        .catch(err => {console.error(err)})
-  }, [])
-
-  React.useEffect(() => {
-    api.getInitialCards()
-        .then(res => {setCards(res.data)})
-        .catch(err => {console.error(err)})
-  }, [])
+        .then((data) => {
+          setCurrentUser(data);
+        })
+        .catch((err) => {
+          console.log(`Упс, произошла ошибка: ${err}`);
+        });
+    api.getInitialCards('/cards') //отправляем запрос на сервер и получаем массив карточек
+        .then((res) => {
+          setCards(res.data.reverse()); //меняем стейт cards
+        })
+        .catch((err) => {
+          console.log(`Упс, произошла ошибка: ${err}`);
+        });
+  }, []);
 
   function register(email, password) {
     apiAuth.register(email, password)
@@ -83,7 +88,6 @@ function App() {
             localStorage.setItem('jwt', data.token)
             setIsLoggedIn(true)
             history.push('/')
-            setEmail(email)
 
           } else {
             setToolTipStatus(true)
@@ -177,9 +181,6 @@ function App() {
           //проверяет если id предыдущей карточки равен id полученной при PUT-запросе, то создавай новую карточку из запроса иначе оставляй старую
           setCards(newCards)
         })
-        // .then((newCard) => {
-        //   setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-        // })
         .catch(err => {console.error(err)})
   }
 
