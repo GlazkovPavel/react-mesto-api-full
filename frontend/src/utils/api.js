@@ -26,10 +26,13 @@ class Api {
             .then(this._getResponse)
     }
 
-    setUserInfo(data) {
+    setUserInfo(data, jwt) {
         return fetch(`${this._url}/users/me`, {
             method: 'PATCH',
-            headers: this._headers,
+          headers: {
+            authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+          },
             body: JSON.stringify({
                 name: data.name,
                 about: data.about
@@ -38,10 +41,13 @@ class Api {
             .then(this._getResponse)
     }
 
-    setCardServer(data) {
+    setCardServer(data, jwt) {
         return fetch(`${this._url}/cards`, {
             method: 'POST',
-            headers: this._headers,
+          headers: {
+            authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+          },
             body: JSON.stringify({
                 name: data.name,
                 link: data.link
@@ -50,27 +56,37 @@ class Api {
             .then(this._getResponse)
     }
 
-  changeLikeCardStatus(cardId, isLiked) {
+  changeLikeCardStatus(cardId, isLiked, jwt) {
+        console.log(jwt)
         return fetch(`${this._url}/cards/${cardId}/likes`, {
             method: isLiked ? 'PUT' : 'DELETE',
-            headers: this._headers
+             headers: {
+            authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+          }
         })
             .then(this._getResponse)
     }
 
-    deleteCard(cardId) {
+    deleteCard(cardId, jwt) {
         return fetch(`${this._url}/cards/${cardId}`, {
             method: 'DELETE',
-            headers: this._headers
+          headers: {
+            authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+          }
         })
             .then(this._getResponse)
     }
 
 
-    changeAvatar(data) {
+    changeAvatar(data, jwt) {
         return fetch(`${this._url}/users/me/avatar`, {
             method: 'PATCH',
-            headers: this._headers,
+          headers: {
+            authorization: `Bearer ${jwt}`,
+            'Content-Type': 'application/json'
+          },
             body: JSON.stringify({
                 avatar: data.avatar,
             })

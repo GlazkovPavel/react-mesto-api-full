@@ -28,15 +28,22 @@ function App() {
     const [email, setEmail] = React.useState('')
     const [isInfoTooltipOpen, setInfoTooltipOpen] = React.useState(false)
     const [tooltipStatus, setToolTipStatus] = React.useState(false)
+    const [jwt, setJwt] = React.useState('')
 
     const history = useHistory();
+
+
 
     React.useEffect(() => {
       const jwt = localStorage.getItem('jwt');
       if(jwt){
+        console.log('apiAuth.getContent', jwt)
+        setJwt(jwt)
+
         apiAuth.getContent(jwt)
             .then((res) => {
               setEmail(res.email)
+
               setIsLoggedIn(true);
               history.push('/')
               setCurrentUser(res)
@@ -54,7 +61,7 @@ function App() {
         .catch((err) => {
           console.log(`Упс, произошла ошибка: ${err}`);
         });
-    api.getInitialCards('/cards') //отправляем запрос на сервер и получаем массив карточек
+    api.getInitialCards() //отправляем запрос на сервер и получаем массив карточек
         .then((res) => {
           setCards(res.data.reverse()); //меняем стейт cards
         })
@@ -136,7 +143,7 @@ function App() {
     }
     //Меняет информацию о пользователе
     const handleUpdateUser = (data) => {
-      api.setUserInfo(data)
+      api.setUserInfo(data, jwt)
           .then((res) => {
             setCurrentUser(res.data)
             closeAllPopups()
@@ -148,7 +155,7 @@ function App() {
     }
     //Меняет аватар
     const handleUpdateAvatar = (data) => {
-      api.changeAvatar(data)
+      api.changeAvatar(data, jwt)
           .then((res) => {
             setCurrentUser(res.data)
             closeAllPopups()
@@ -160,7 +167,7 @@ function App() {
     }
     //Добавление новой карточки
     const handleAddPlaceSubmit = (newCard) => {
-      api.setCardServer(newCard)
+      api.setCardServer(newCard, jwt)
           .then((res) => {
             setCards([res.data, ...cards]);
             closeAllPopups()
@@ -175,7 +182,7 @@ function App() {
     const isLiked = card.likes.some(i => i === currentUser._id);
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    api.changeLikeCardStatus(card._id, !isLiked)
+    api.changeLikeCardStatus(card._id, !isLiked, jwt)
         .then((newCard) => {
           const newCards = cards.map((c) => c._id === card._id ? newCard.data : c);// Формируем новый массив на основе имеющегося, подставляя в него новую карточку
           //проверяет если id предыдущей карточки равен id полученной при PUT-запросе, то создавай новую карточку из запроса иначе оставляй старую
@@ -185,7 +192,7 @@ function App() {
   }
 
   function handleCardDelete(card){
-    api.deleteCard(card._id)
+    api.deleteCard(card._id, jwt)
         .then(() => {
           setCards(cards.filter((c) => c._id !== card._id))
         })
