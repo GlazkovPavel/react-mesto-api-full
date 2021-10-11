@@ -5,3 +5,6 @@
 * фронтенд https://mesto.glazkovpavel.nomoredomains.club/
 * бэкенд api.mesto.glazkovpavel.nomoredomains.club
 * IP 62.84.122.119
+* фронтенд https://mesto.glazkovpavel.nomoredomains.club/
+* бэкенд api.mesto.glazkovpavel.nomoredomains.club
+* IP 62.84.122.119
