@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const { celebrate, Joi, errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
+const cors = require('cors');
 const { users } = require('./routes/users');
 const { cards } = require('./routes/cards');
 const wrong = require('./routes/wrong-requests');
@@ -13,7 +14,6 @@ const auth = require('./middlewares/auth');
 const errorHanding = require('./middlewares/error');
 const { methodValidator } = require('./middlewares/methodValidator');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
-const cors = require('cors')
 
 const { PORT = 3001, BASE_PATH } = process.env;
 const app = express();
