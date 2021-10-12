@@ -38,33 +38,47 @@ module.exports.deleteCard = (req, res, next) => {
 };
 
 module.exports.likeCard = (req, res, next) => {
-  Card.findByIdAndUpdate(req.params.cardId, { $addToSet: { likes: req.user._id } }, { new: true })
+  Card.findById(req.params.cardId)
     .then((card) => {
-      if (card !== null) {
-        res.send({ data: card });
-      } else { throw new NotFoundError('Данной карточки не существует'); }
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new BadRequestErr('Произошла ошибка валидации');
+      if (!card) {
+        throw new NotFoundError('Нет карточки с таким id');
       }
+      Card.findByIdAndUpdate(req.params.cardId,
+        { $addToSet: { likes: req.user._id } },
+        { new: true })
+        .then((cardUser) => {
+          if (cardUser !== null) {
+            res.send({ data: cardUser });
+          } else { throw new NotFoundError('Данной карточки не существует'); }
+        })
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            throw new BadRequestErr('Произошла ошибка валидации');
+          }
+        });
     })
     .catch(next);
 };
 
 module.exports.dislikeCard = (req, res, next) => {
-  Card.findByIdAndUpdate(
-    req.params.cardId, { $pull: { likes: req.user._id } }, { new: true },
-  )
+  Card.findById(req.params.cardId)
     .then((card) => {
-      if (card !== null) {
-        res.send({ data: card });
-      } else { throw new NotFoundError('Данной карточки не существует'); }
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new BadRequestErr('Произошла ошибка валидации');
+      if (!card) {
+        throw new NotFoundError('Нет карточки с таким id');
       }
+      Card.findByIdAndUpdate(
+        req.params.cardId, { $pull: { likes: req.user._id } }, { new: true },
+      )
+        .then((cardUser) => {
+          if (!cardUser) {
+            throw new NotFoundError('Данной карточки не существует');
+          } else { res.send({ data: cardUser }); }
+        })
+        .catch((err) => {
+          if (err.name === 'CastError') {
+            throw new BadRequestErr('Произошла ошибка валидации');
+          }
+        });
     })
     .catch(next);
 };

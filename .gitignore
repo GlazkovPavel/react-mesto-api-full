@@ -10,7 +10,7 @@ node_modules
 # Optional npm cache directory
 .npm
 
-
+.eslintrc
 ./backend/error.log
 
 ./backend/request.log

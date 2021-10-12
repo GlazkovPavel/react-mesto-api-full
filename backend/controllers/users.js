@@ -34,11 +34,7 @@ module.exports.getUserId = (req, res, next) => {
       }
       res.send({ data: user });
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        throw new BadRequestErr('Произошла ошибка валидации');
-      }
-    })
+
     .catch(next);
 };
 
